@@ -15,39 +15,49 @@ Return health status as an API endpoint
 
 ## Executing unit tests
 
-python3 manage.py test
+~~~~
+$ python3 manage.py test
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.020s
+
+OK
+Destroying test database for alias 'default'...
+~~~~
 
 ## Start the server
 
-Assumes that TCP port 8000 is not currently in use:
+Note that TCP port 8000 is used (assumes it is not already in use):
 ~~~~
-    # change directory into the cloned repository
-    cd health
-    python3 manage.py migrate # create SQLLite DB
-    python3 manage.py runserver 0.0.0.0:8000
+# change directory into the cloned repository
+$ cd health-endpoint
+$ python3 manage.py migrate # create SQLLite DB
+$ python3 manage.py runserver 0.0.0.0:8000
 ~~~~
 
 ## Building docker container (optional)
 
 ~~~~
-   git clone https://github.com/ozacas/health-endpoint.git
-   cd health-endpoint
-   docker build deploy
-   export RELEASE=ozacas/health-endpoint:v0.1.8
-   docker tag `docker images -q | head -n 1` $RELEASE
+$ git clone https://github.com/ozacas/health-endpoint.git
+$ cd health-endpoint
+$ docker build deploy
+$ export RELEASE=ozacas/health-endpoint:v0.1.8
+$ docker tag `docker images -q | head -n 1` $RELEASE
 ~~~~
 
 ## Publish to eg. docker hub (optional)
 
 Note container must have been built by the above step before this:
 ~~~~
-   docker push $RELEASE
+$ docker push $RELEASE
 ~~~~
 
 ## Running docker container
 
 ~~~~
-   docker run -p 8000:8000 $RELEASE
+$ docker run -p 8000:8000 $RELEASE
 ~~~~
 After a few seconds for the container to start, you can browse to the [health API page](http://localhost:8000/health) or invoke the API endpoint using curl(1):
 
