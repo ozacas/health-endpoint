@@ -8,9 +8,9 @@ def run(cmd, shell=False):
        Wrapper around subprocess to handle exceptions
    """
    try:
-       stdout = subprocess.check_output(cmd, shell=shell).strip()
+       stdout = subprocess.check_output(cmd, shell=shell, stderr=subprocess.DEVNULL).strip()
        return stdout
-   except CalledProcessError:
+   except (subprocess.CalledProcessError, FileNotFoundError):
        return "n/a"
 
 def git_hash():
@@ -44,4 +44,4 @@ def git_view(request):
       "app name":    app_name(),
       "app version": git_most_recent_tag(),
    }
-   return Response(data)
+   return Response(data, content_type="application/json") # explicit content_type rather than negotiated
