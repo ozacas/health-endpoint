@@ -14,7 +14,7 @@ def app_name(request):
    """
        Return django app name to caller
    """
-   appname = request.resolver_match.app_name
+   appname = subprocess.check_output("basename -s .git `git config --get remote.origin.url`", shell=True).strip()
    return appname
 
 @api_view(['GET'])
