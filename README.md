@@ -79,3 +79,16 @@ Django version 3.1.6, using settings 'health.settings'
 Starting development server at http://0.0.0.0:8000/
 Quit the server with CONTROL-C.
 ~~~~
+
+## CI/CD using Github Actions
+
+Perform the following tasks on each git push:
+ * run unit tests
+ * perform semantic versioning and git tag
+ * run flake8 and lint checks
+ * push to docker hub
+
+Results of the CI/CD pipeline can be [viewed at github.com](https://github.com/ozacas/health-endpoint/actions?query=workflow%3A%22Validate+tree%22)
+
+## Deployment on a kubernetes cluster
+
