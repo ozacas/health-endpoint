@@ -10,6 +10,7 @@ TEST_REQUIREMENTS = [
     "pytest-django",
     "pylint",
     "pylint_django",
+    "mock"
 ]
 
 setup(
