@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster as base
+FROM arm64v8/python:3.8-slim-buster as base
 ARG TARGETPLATFORM
 
 # build up python base
@@ -6,7 +6,7 @@ FROM base as builder
 
 RUN mkdir /install
 WORKDIR /install
-COPY requirements.txt /requirements.txt
+COPY deploy/requirements.txt /requirements.txt
 RUN pip3 install --prefer-binary --target=/install -r /requirements.txt 
 
 # multi-stage to reduce final image size
