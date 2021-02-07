@@ -17,6 +17,13 @@ spec:
       containers:
         - image: ozacas/health-endpoint-arm64:v0.1.12
           name: health
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
           ports:
             - containerPort: 8000
               name: http
