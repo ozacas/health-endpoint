@@ -90,5 +90,50 @@ Perform the following tasks on each git push:
 
 Results of the CI/CD pipeline can be [viewed at github.com](https://github.com/ozacas/health-endpoint/actions?query=workflow%3A%22Validate+tree%22)
 
-## Deployment on a kubernetes cluster
+## Deployment on a kubernetes cluster (Raspberry PI4 K8s)
 
+Based on the above infrastructure we can readily build a deployment for Kubernetes running on an arm64 architecture. Firstly use docker buildx to create a cross-platform image for arm64:
+
+~~~~
+# chdir to the root of the local health-endpoint repo
+$ docker buildx build --no-cache --platform linux/arm64 --tag ozacas/health-endpoint-arm64:v0.1.12 --file deploy/Dockerfile.arm64 .
+# and push to docker hub for kubernetes to access
+$ docker push ozacas/health-endpoint-arm64:v0.1.12
+~~~~
+
+Now apply the deployment onto the kubernetes cluster, if necessary adjusting the container image:
+
+~~~~
+$ kubectl create -f deploy/kubernetes-deployment.yml
+$ kubectl get deployments 
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+health-endpoint   2/2     2            2           94m
+$ kubectl create -f deploy/kubernetes-service.yml 
+service/health-endpoint created
+~~~~
+
+Now we should be able to browse to the service from outside the cluster once we identify the port which the service has been made available:
+
+~~~~
+kubectl get svc
+NAME              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+health-endpoint   NodePort    10.105.241.46   <none>        8000:31992/TCP   46s
+kubernetes        ClusterIP   10.96.0.1       <none>        443/TCP          106d
+~~~~
+
+In this case, we will find the service on TCP port 31992. So the full URL becomes a node IP combined
+with this port eg. for my k8s cluster http://192.168.1.80:31992/health
+
+Browsing to this location yields:
+
+![Service deployed to k8s](docs/k8s-arm64-health-endpoint.png)
+
+As expected two replicas for this (admittedly contrived) example are running:
+
+~~~~
+$ kubectl get deployment health-endpoint
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+health-endpoint   2/2     2            2           105m
+~~~~
+
+Job done.
