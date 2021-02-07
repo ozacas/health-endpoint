@@ -15,7 +15,7 @@ spec:
         app: health
     spec:
       containers:
-        - image: ozacas/health-endpoint-arm64:v0.1.9
+        - image: ozacas/health-endpoint-arm64:v0.1.12
           name: health
           ports:
             - containerPort: 8000
