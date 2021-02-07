@@ -51,5 +51,5 @@ def git_view(request):
         "app version": git_most_recent_tag(),
     }
     return Response(
-        data, content_type="application/json"
-    )  # explicit content_type rather than negotiated
+        data
+    )  
