@@ -36,7 +36,7 @@ def git_most_recent_tag():
     """
     Return the most recent git release tag associated with the repo and return to caller
     """
-    version = run("git describe --exact-match --abbrev=0", shell=True)
+    version = run("git describe --abbrev=0", shell=True)   # no exact match to permit commits since tag generated and pushed
     return version
 
 
