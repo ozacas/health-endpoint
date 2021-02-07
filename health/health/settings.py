@@ -25,7 +25,7 @@ SECRET_KEY = 'k+e566+cqkqhl61t@@*&+15s=*w=)^%s6qd(t_ogw7^uf(#d%b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ '192.168.1.80' ]  # internal home network k8s node ip only
+ALLOWED_HOSTS = [ "*" ]  # TODO FIXME: bad security - permits host header attacks
 
 
 # Application definition
